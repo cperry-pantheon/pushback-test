@@ -1,12 +1,9 @@
 <?php
-// todo: secure git credentials.
-$git_clone = shell_exec("git clone https://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@github.com/cperry-pantheon/pushback-test.git /tmp/client-site");
+$github_token = getenv('PMU_GITHUB_TOKEN');
+$git_clone = shell_exec("git clone https://$github_token@github.com/cperry-pantheon/pushback-test.git /tmp/client-site");
 $copy_composer_files = shell_exec("cp composer.* /tmp/client-site");
 $date = date('ymd');
 $push_to_github = shell_exec("cd /tmp/client-site && git checkout -b pantheon-mu-$date && git add -A && git commit -m \"Pantheon Managed Updates: composer updates\" && git push origin pantheon-mu-$date");
-
-//$github_token = getenv('PMU_GITHUB_TOKEN');
-$github_token = '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';
 $auth = base64_encode('pmu-ops' . ':' . $github_token);
 
 // Initialize repo connection info.
